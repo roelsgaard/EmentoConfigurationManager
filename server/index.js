@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { dataService } from './data.js';
+import { dataService } from './dataService.js';
+import { commands } from './commands.js';
 
 const app = express();
 const port = 3000;
@@ -258,6 +259,12 @@ app.get('/api/configuration-validate/:domain', asyncHandler(async (req, res) => 
     });
   }
 }));
+
+app.get('/test', asyncHandler(async (req, res) => {
+  const { stderr, stdout } = await commands.test();
+  res.json({stderr, stdout});
+}
+));
 
 // Global error handler
 app.use((err, req, res, next) => {
