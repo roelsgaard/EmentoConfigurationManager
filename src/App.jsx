@@ -15,12 +15,14 @@ import { EditVariableModal } from './components/modals/EditVariableModal';
 import { ImportJsonModal } from './components/modals/ImportJsonModal';
 import { SelectVariableModal } from './components/modals/SelectVariableModal';
 import { DeleteVariableModal } from './components/modals/DeleteVariableModal';
+import set from 'lodash.set';
 
 function App() {
   const [branches, setBranches] = useState([]);
   const [changesCount, setChangesCount] = useState(0);
   const [showChanges, setShowChanges] = useState(false);
   const [changes, setChanges] = useState([]);
+  const [savingChanges, setSavingChanges] = useState(false);
   const [environments, setEnvironments] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [services, setServices] = useState([]);
@@ -634,6 +636,7 @@ function App() {
             <button
               onClick={async () => {
                 try {
+                  setSavingChanges(true);
                   const res = await dataService.saveChanges();
                   
                   const changesCount = await dataService.getChangesCount();
@@ -641,18 +644,43 @@ function App() {
 
                   const changes = await dataService.getChanges();
                   setChanges(changes);
+
+                  setSavingChanges(false);
                 } catch (error) {
                   console.error('Error saving changes:', error);
+                  setSavingChanges(false);
                 }
               }}
-              disabled={changesCount <= 0}
+              disabled={changesCount <= 0 || savingChanges}
               className={`px-4 py-2 rounded ${
                 changesCount > 0
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-100 hover:bg-gray-200'
               }`}
             >
-              Save Changes
+              {savingChanges ? 'Saving...' : 'Save Changes'}
+              {savingChanges && (
+                <svg
+                  className="animate-spin h-5 w-5 text-white ml-2 inline"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zM2 12a10 10 0 0110-10V0C4.477 0 0 4.477 0 10h2z"
+                  ></path>
+                </svg>
+              )}
             </button>
           </div>
         </header>

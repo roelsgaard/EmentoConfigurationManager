@@ -21,38 +21,42 @@ router.get('/changes', async (req, res) => {
 });
 
 router.post('/changes', async (req, res) => {
-  const customers = await Customer.getCustomers();
-  
-  const errors = [];
-  const configs = [];
-  
-  for await (const customer of customers) {
-    const config = await EffectiveConfiguration.getEffectiveConfiguration('customer', customer.id);
+  try {
+    const customers = await Customer.getCustomers();
     
-    if(config._validation && !config._validation.isValid) {
-       errors.push({
-        customer, 
-        validation: config._validation
+    const errors = [];
+    const configs = [];
+    
+    for await (const customer of customers) {
+      const config = await EffectiveConfiguration.getEffectiveConfiguration('customer', customer.id);
+      
+      if(config._validation && !config._validation.isValid) {
+        errors.push({
+          customer, 
+          validation: config._validation
+        });
+        continue;
+      }
+
+      configs.push({
+        customer,
+        config
       });
-      continue;
+    };
+
+    if(errors.length > 0) {
+      res.status(400).json({ errors });
+      return;
     }
 
-    configs.push({
-      customer,
-      config
-    });
-  };
+    await commands.saveConfigsToDir(configs);
+    await commands.commitAndPushDatabase();
+    await commands.commitAndPushConfigurations();
 
-  if(errors.length > 0) {
-    res.status(400).json({ errors });
-    return;
+    res.json({ configs });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-
-  await commands.saveConfigsToDir(configs);
-  await commands.commitAndPushDatabase();
-  await commands.commitAndPushConfigurations();
-
-  res.json({ configs });
 });
 
 export default router;
