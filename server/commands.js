@@ -7,7 +7,7 @@ const command = util.promisify(exec);
 
 export const commands = {
     async getBranches() {
-        const { stderr, stdout } = await command('git branch -r --format="%(refname:lstrip=-1)"');
+        const { stderr, stdout } = await command('git branch -r --format="%(refname:lstrip=-2)"');
         const branches = stdout.split('\n').map(b => b.replaceAll('\"', "").trim()).filter(Boolean);
         return branches;
     },
