@@ -1,5 +1,7 @@
 import util from 'util';
 import { exec } from 'child_process';
+import fs from 'fs';
+import path from 'path';
 
 const command = util.promisify(exec);
 
@@ -26,5 +28,19 @@ export const commands = {
         }).filter(Boolean);
 
         return changes;
+    },
+
+    async saveConfigsToDir(configs) {
+        const dirPath = path.join(process.cwd(), 'configurations');
+        
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
+        }
+
+        configs.forEach(({ customer, config }) => {
+            const fileName = `${customer.domain}.json`;
+            const filePath = path.join(dirPath, fileName);
+            fs.writeFileSync(filePath, JSON.stringify(config, null, 2), 'utf8');
+        });
     }
 };

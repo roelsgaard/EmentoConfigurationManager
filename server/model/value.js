@@ -1,4 +1,5 @@
 import db from '../database.js';
+import HiddenVariable from './hiddenVariable.js';
 
 export default class Value {
   static async getValues() {
@@ -21,6 +22,7 @@ export default class Value {
         ...value,
         updated_at: now
       };
+      db.write();
       return db.data.values[existingIndex];
     }
 
@@ -41,6 +43,8 @@ export default class Value {
   }
 
   static async deleteValue(value) {
+    await HiddenVariable.setVariableHidden(value.variable_id, value.level, value.entity_id, false);
+    
     const index = db.data.values.findIndex(v => 
       v.variable_id === value.variable_id &&
       v.level === value.level &&

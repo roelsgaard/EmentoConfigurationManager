@@ -279,10 +279,11 @@ export function ConfigurationPanel({
                         </div>
                         <button
                           onClick={() => onStartEditing(variable)}
-                          className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
+                          className={`px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2
+                            ${isGlobalLevel ? 'hidden' : ''}`}
                         >
                           <Edit2 className="w-4 h-4" />
-                          {isGlobalLevel ? 'Edit Default' : 'Edit Override'}
+                          {'Edit Override'}
                         </button>
                       </div>
                     )}
