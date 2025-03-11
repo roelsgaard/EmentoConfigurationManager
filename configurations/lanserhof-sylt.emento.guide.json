@@ -1,7 +1,7 @@
 {
   "track": {
     "test": {
-      "noValue": "foo1"
+      "noValue": "foo"
     },
     "universalLinks": {
       "customerLinkCountry": "dk",
