@@ -1,10 +1,10 @@
-import { JSONFilePreset } from 'lowdb/node'
+import { JSONFilePreset } from "lowdb/node";
 
-const databaseFilename = './database/db.json';
+const databaseFilename = "./database/db.json";
 const db = await JSONFilePreset(databaseFilename, {});
 
 export const reloadDatabase = async () => {
-  await db.read();
+    await db.read();
 };
 
 export default db;
