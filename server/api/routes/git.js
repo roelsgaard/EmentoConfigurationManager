@@ -7,7 +7,11 @@ import EffectiveConfiguration from '../../model/effectiveConfiguration.js';
 // Git API
 router.get('/branches', async (req, res) => {
   const branches = await commands.getBranches();
-  res.json(branches);
+  const current = await commands.getCurrentBranch();
+  res.json({
+    branches,
+    current
+  });
 });
 
 router.post('/change-branch', async (req, res) => {

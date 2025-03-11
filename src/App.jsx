@@ -18,6 +18,7 @@ import { DeleteVariableModal } from './components/modals/DeleteVariableModal';
 
 function App() {
   const [branches, setBranches] = useState([]);
+  const [currentBranch, setCurrentBranch] = useState('');
   const [changesCount, setChangesCount] = useState(0);
   const [showChanges, setShowChanges] = useState(false);
   const [changes, setChanges] = useState([]);
@@ -96,7 +97,8 @@ function App() {
       setModules(mods);
       setVariables(vars);
       setValues(vals);
-      setBranches(branches);
+      setBranches(branches.branches);
+      setCurrentBranch(branches.current);
       setChangesCount(changesCount);
       setChanges(changes);
       setLoading(false);
@@ -588,6 +590,7 @@ function App() {
             <select 
               className="w-64 p-2 border border-gray-300 rounded"
               disabled={savingChanges || changesCount > 0}
+              value={currentBranch}
               onChange={async (e) => {
                 const branch = e.target.value;
                 await dataService.changeBranch(branch);
