@@ -1,15 +1,15 @@
 import express from 'express';
 const router = express.Router();
-import { dataService } from './../../dataService.js'; 
+import Value from '../../model/value.js';
 
 // Values
 router.get('/', async (req, res) => {
-  const values = await dataService.getValues();
+  const values = await Value.getValues();
   res.json(values);
 });
 
 router.post('/', async (req, res) => {
-  const value = await dataService.updateValue(req.body);
+  const value = await Value.updateValue(req.body);
   res.status(201).json(value);
 });
 
@@ -17,7 +17,7 @@ router.delete('/:variableId/:level/:entityId', async (req, res) => {
   const { variableId, level, entityId } = req.params;
   
   try {
-    await dataService.deleteValue({
+    await Value.deleteValue({
       variable_id: variableId,
       level,
       entity_id: entityId === '_null_' ? null : entityId

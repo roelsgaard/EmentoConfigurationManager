@@ -1,6 +1,8 @@
 import express from 'express';
 const router = express.Router();
 import { commands } from './../../commands.js'; 
+import Customer from '../../model/customer.js';
+import EffectiveConfiguration from '../../model/effectiveConfiguration.js';
 
 // Git API
 router.get('/branches', async (req, res) => {
@@ -19,8 +21,34 @@ router.get('/changes', async (req, res) => {
 });
 
 router.post('/changes', async (req, res) => {
-  console.log('Saving changes...');
-  res.json({ success: true });
+  const customers = await Customer.getCustomers();
+  
+  const errors = [];
+  const configs = [];
+  
+  for await (const customer of customers) {
+    const config = await EffectiveConfiguration.getEffectiveConfiguration('customer', customer.id);
+    
+    if(config._validation && !config._validation.isValid) {
+       errors.push({
+        customer, 
+        validation: config._validation
+      });
+      continue;
+    }
+
+    configs.push({
+      customer,
+      config
+    });
+  };
+
+  if(errors.length > 0) {
+    res.status(400).json({ errors });
+    return;
+  }
+
+  res.json({ configs });
 });
 
 export default router;

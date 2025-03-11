@@ -1,25 +1,25 @@
 import express from 'express';
 const router = express.Router();
-import { dataService } from './../../dataService.js'; 
+import Module from './../../model/module.js';
 
 // Modules
 router.get('/', async (req, res) => {
-  const modules = await dataService.getModules();
+  const modules = await Module.getModules();
   res.json(modules);
 });
 
 router.post('/', async (req, res) => {
-  const module = await dataService.createModule(req.body);
+  const module = await Module.createModule(req.body);
   res.status(201).json(module);
 });
 
 router.put('/:id', async (req, res) => {
-  const module = await dataService.updateModule(req.params.id, req.body);
+  const module = await Module.updateModule(req.params.id, req.body);
   res.json(module);
 });
 
 router.delete('/:id', async (req, res) => {
-  await dataService.deleteModule(req.params.id);
+  await Module.deleteModule(req.params.id);
   res.status(204).send();
 });
 
