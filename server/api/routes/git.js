@@ -3,6 +3,7 @@ const router = express.Router();
 import { commands } from './../../commands.js'; 
 import Customer from '../../model/customer.js';
 import EffectiveConfiguration from '../../model/effectiveConfiguration.js';
+import db from '../../database.js';
 
 // Git API
 router.get('/branches', async (req, res) => {
@@ -17,6 +18,9 @@ router.get('/branches', async (req, res) => {
 router.post('/change-branch', async (req, res) => {
   const { branch } = req.body;
   await commands.checkoutBranch(branch);
+  
+  db.read(); // reaload database since we are changing the branch
+  
   res.json(branch);
 });
 
