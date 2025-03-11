@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite\" \"node --watch --inspect='0.0.0.0:3099' server/index.js\"",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "concurrently \"cd client && vite --open\" \"node --watch --inspect='0.0.0.0:3099' server/index.js\"",
+    "build": "cd client && vite build",
+    "preview": "cd client && vite preview"
   },
   "dependencies": {
     "@textea/json-viewer": "^3.3.1",
