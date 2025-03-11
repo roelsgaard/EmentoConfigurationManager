@@ -102,7 +102,8 @@
       "service_id": "1",
       "id": "4ekepql2fasd",
       "created_at": "2025-03-08T16:52:04.461Z",
-      "updated_at": "2025-03-08T16:52:04.461Z"
+      "updated_at": "2025-03-11T18:37:25.270Z",
+      "defaultValue": "test"
     },
     {
       "name": "types",
