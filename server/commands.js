@@ -23,8 +23,7 @@ export const commands = {
             const [status, file] = c.trim().split(' ');
             if(!status || !file) return;
             return { status, file };
-        }
-        ).filter(Boolean);
+        }).filter(Boolean);
 
         return changes;
     }

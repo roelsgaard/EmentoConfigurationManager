@@ -15,7 +15,6 @@ import { EditVariableModal } from './components/modals/EditVariableModal';
 import { ImportJsonModal } from './components/modals/ImportJsonModal';
 import { SelectVariableModal } from './components/modals/SelectVariableModal';
 import { DeleteVariableModal } from './components/modals/DeleteVariableModal';
-import { data } from 'autoprefixer';
 
 function App() {
   const [branches, setBranches] = useState([]);
@@ -633,7 +632,18 @@ function App() {
             />
             
             <button
-              onClick={() => {
+              onClick={async () => {
+                try {
+                  const res = await dataService.saveChanges();
+                  
+                  const changesCount = await dataService.getChangesCount();
+                  setChangesCount(changesCount);
+
+                  const changes = await dataService.getChanges();
+                  setChanges(changes);
+                } catch (error) {
+                  console.error('Error saving changes:', error);
+                }
               }}
               className={`px-4 py-2 rounded ${
                 changesCount > 0

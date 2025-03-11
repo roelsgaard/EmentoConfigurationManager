@@ -219,4 +219,10 @@ export const dataService = {
       api.get('/git/changes').then(response => response.data)
     );
   },
+
+  saveChanges: async () => {
+    return handleRequest(
+      api.post('/git/changes').then(response => response.data)
+    );
+  }
 };
