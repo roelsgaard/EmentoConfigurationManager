@@ -15,6 +15,7 @@ import { EditVariableModal } from './components/modals/EditVariableModal';
 import { ImportJsonModal } from './components/modals/ImportJsonModal';
 import { SelectVariableModal } from './components/modals/SelectVariableModal';
 import { DeleteVariableModal } from './components/modals/DeleteVariableModal';
+import set from 'lodash.set';
 
 function App() {
   const [branches, setBranches] = useState([]);
@@ -23,6 +24,7 @@ function App() {
   const [showChanges, setShowChanges] = useState(false);
   const [changes, setChanges] = useState([]);
   const [savingChanges, setSavingChanges] = useState(false);
+  const [generatingConfigs, setGeneratingConfigs] = useState(false);
   const [environments, setEnvironments] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [services, setServices] = useState([]);
@@ -577,6 +579,31 @@ function App() {
     );
   }
 
+  const Spinner = () => {
+    return (
+      <svg
+        className="animate-spin h-5 w-5 text-white ml-2 inline"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        ></circle>
+        <path
+          className="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zM2 12a10 10 0 0110-10V0C4.477 0 0 4.477 0 10h2z"
+        ></path>
+      </svg>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="container mx-auto px-4 py-8">
@@ -643,6 +670,25 @@ function App() {
               }
             />
             
+            <button
+              onClick={async () => {
+                setGeneratingConfigs(true);
+                try {
+                  const res = await dataService.generateConfigurations();
+                } catch (error) {
+                  console.error('Error saving changes:', error);
+                }
+                setGeneratingConfigs(false);
+              }}
+              disabled={changesCount <= 0 || savingChanges || generatingConfigs}
+              className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-500"
+            >
+              {generatingConfigs ? 'Generating...' : 'Generate Configurations'}
+              {generatingConfigs && (
+                <Spinner />
+              )}
+            </button>
+
             <button
               onClick={async () => {
                 try {

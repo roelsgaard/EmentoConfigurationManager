@@ -36,6 +36,16 @@ router.get('/changes', async (req, res) => {
 
 router.post('/changes', async (req, res) => {
   try {
+    await commands.commitAndPushDatabase();
+    await commands.commitAndPushConfigurations();
+    res.send();
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.post('/generate-configurations', async (req, res) => {
+  try {
     const customers = await Customer.getCustomers();
     
     const errors = [];
@@ -64,9 +74,7 @@ router.post('/changes', async (req, res) => {
     }
 
     await commands.saveConfigsToDir(configs);
-    await commands.commitAndPushDatabase();
-    await commands.commitAndPushConfigurations();
-
+    
     res.json({ configs });
   } catch (error) {
     res.status(500).json({ error: error.message });

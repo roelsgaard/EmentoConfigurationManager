@@ -226,6 +226,12 @@ export const dataService = {
     );
   },
 
+  generateConfigurations: async () => {
+    return handleRequest(
+      api.post('/git/generate-configurations').then(response => response.data)
+    );
+  },
+  
   saveChanges: async () => {
     return handleRequest(
       api.post('/git/changes').then(response => response.data)
