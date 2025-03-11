@@ -254,16 +254,6 @@
       "updated_at": "2025-03-08T16:55:01.314Z"
     }
   ],
-  "values": [
-    {
-      "id": "qaui6loqr",
-      "variable_id": "4ekepql2fasd",
-      "level": "customer",
-      "entity_id": "1",
-      "value": "bar",
-      "created_at": "2025-03-11T20:35:16.914Z",
-      "updated_at": "2025-03-11T20:35:22.413Z"
-    }
-  ],
+  "values": [],
   "hiddenVariables": []
 }
