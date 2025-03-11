@@ -20,7 +20,6 @@ router.get("/:domain", async (req, res) => {
 
     if (!validate) {
         const config = await EffectiveConfiguration.getEffectiveConfiguration("customer", customer.id);
-
         res.json(config);
     }
 
@@ -30,7 +29,7 @@ router.get("/:domain", async (req, res) => {
     const hiddenVariables = await HiddenVariable.getHiddenVariables();
     const services = await Service.getServices();
 
-    const validation = EffectiveConfiguration.validateConfiguration(
+    const validation = await EffectiveConfiguration.validateConfiguration(
         variables,
         values,
         hiddenVariables,
