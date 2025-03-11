@@ -673,15 +673,22 @@ function App() {
             <button
               onClick={async () => {
                 setGeneratingConfigs(true);
+                
                 try {
                   const res = await dataService.generateConfigurations();
+                  await fetchData();
                 } catch (error) {
                   console.error('Error saving changes:', error);
                 }
+
                 setGeneratingConfigs(false);
               }}
               disabled={changesCount <= 0 || savingChanges || generatingConfigs}
-              className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-500"
+              className={`px-4 py-2 rounded ${
+                changesCount > 0
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 hover:bg-gray-200'
+              }`}
             >
               {generatingConfigs ? 'Generating...' : 'Generate Configurations'}
               {generatingConfigs && (
@@ -691,23 +698,18 @@ function App() {
 
             <button
               onClick={async () => {
-                try {
-                  setSavingChanges(true);
-                  const res = await dataService.saveChanges();
+                setSavingChanges(true);
                   
-                  const changesCount = await dataService.getChangesCount();
-                  setChangesCount(changesCount);
-
-                  const changes = await dataService.getChanges();
-                  setChanges(changes);
-
-                  setSavingChanges(false);
+                try {
+                  const res = await dataService.saveChanges();
+                  await fetchData();
                 } catch (error) {
                   console.error('Error saving changes:', error);
-                  setSavingChanges(false);
                 }
+
+                setSavingChanges(false);
               }}
-              disabled={changesCount <= 0 || savingChanges}
+              disabled={changesCount <= 0 || savingChanges || generatingConfigs}
               className={`px-4 py-2 rounded ${
                 changesCount > 0
                   ? 'bg-blue-600 text-white'
@@ -716,26 +718,7 @@ function App() {
             >
               {savingChanges ? 'Saving...' : 'Save Changes'}
               {savingChanges && (
-                <svg
-                  className="animate-spin h-5 w-5 text-white ml-2 inline"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zM2 12a10 10 0 0110-10V0C4.477 0 0 4.477 0 10h2z"
-                  ></path>
-                </svg>
+                <Spinner />
               )}
             </button>
           </div>
