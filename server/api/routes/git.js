@@ -48,10 +48,10 @@ router.post('/changes', async (req, res) => {
     return;
   }
 
-  // save configs to disk
   commands.saveConfigsToDir(configs);
-  // save db.json
-  // commit all to git
+  commands.commitAndPushDatabase();
+  commands.commitAndPushConfigurations();
+  
   res.json({ configs });
 });
 

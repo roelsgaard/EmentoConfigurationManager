@@ -42,5 +42,19 @@ export const commands = {
             const filePath = path.join(dirPath, fileName);
             fs.writeFileSync(filePath, JSON.stringify(config, null, 2), 'utf8');
         });
+    },
+
+    async commitAndPushDatabase() {
+        const dirPath = path.join(process.cwd(), 'database');
+        await command(`git add ${dirPath}`);
+        await command(`git commit -m "saving database"`);
+        await command('git push');
+    },
+
+    async commitAndPushConfigurations() {
+        const dirPath = path.join(process.cwd(), 'configurations');
+        await command(`git add ${dirPath}`);
+        await command(`git commit -m "saving configurations"`);
+        await command('git push');
     }
 };
