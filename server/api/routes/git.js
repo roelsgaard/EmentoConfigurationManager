@@ -10,6 +10,12 @@ router.get('/branches', async (req, res) => {
   res.json(branches);
 });
 
+router.post('/change-branch', async (req, res) => {
+  const { branch } = req.body;
+  await commands.checkoutBranch(branch);
+  res.json(branch);
+});
+
 router.get('/changes-count', async (req, res) => {
   const changesCount = await commands.getChangesCount();
   res.json(changesCount);

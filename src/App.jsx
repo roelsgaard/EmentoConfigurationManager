@@ -15,7 +15,6 @@ import { EditVariableModal } from './components/modals/EditVariableModal';
 import { ImportJsonModal } from './components/modals/ImportJsonModal';
 import { SelectVariableModal } from './components/modals/SelectVariableModal';
 import { DeleteVariableModal } from './components/modals/DeleteVariableModal';
-import set from 'lodash.set';
 
 function App() {
   const [branches, setBranches] = useState([]);
@@ -586,7 +585,15 @@ function App() {
           </h1>
           <div className="flex items-baseline gap-4 mt-4">
             <label className="block text-sm font-medium text-gray-700 mb-2 inline">Branch: </label>
-            <select className="w-64 p-2 border border-gray-300 rounded">
+            <select 
+              className="w-64 p-2 border border-gray-300 rounded"
+              disabled={savingChanges || changesCount > 0}
+              onChange={async (e) => {
+                const branch = e.target.value;
+                await dataService.changeBranch(branch);
+                await fetchData();
+              }}
+            >
               {branches && branches.map(branch => (
                 <option key={branch}>{branch}</option>
               ))}

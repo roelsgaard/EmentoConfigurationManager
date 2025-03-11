@@ -208,6 +208,12 @@ export const dataService = {
     );
   },
 
+  changeBranch: async (branch) => {
+    return handleRequest(
+      api.post('/git/change-branch', { branch }).then(response => response.data)
+    );
+  },
+
   getChangesCount: async () => {
     return handleRequest(
       api.get('/git/changes-count').then(response => response.data)

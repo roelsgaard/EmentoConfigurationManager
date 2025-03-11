@@ -12,6 +12,10 @@ export const commands = {
         return branches;
     },
 
+    async checkoutBranch(branch) {
+        await command(`git checkout ${branch}`);
+    },
+
     async getChangesCount () {
         const { stderr, stdout } = await command('git status --porcelain=v1 2>/dev/null | wc -l');
         const count = parseInt(stdout);
