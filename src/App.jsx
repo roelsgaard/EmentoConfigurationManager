@@ -645,6 +645,7 @@ function App() {
                   console.error('Error saving changes:', error);
                 }
               }}
+              disabled={changesCount <= 0}
               className={`px-4 py-2 rounded ${
                 changesCount > 0
                   ? 'bg-blue-600 text-white'
