@@ -48,10 +48,10 @@ router.post('/changes', async (req, res) => {
     return;
   }
 
-  commands.saveConfigsToDir(configs);
-  commands.commitAndPushDatabase();
-  commands.commitAndPushConfigurations();
-  
+  await commands.saveConfigsToDir(configs);
+  await commands.commitAndPushDatabase();
+  await commands.commitAndPushConfigurations();
+
   res.json({ configs });
 });
 
