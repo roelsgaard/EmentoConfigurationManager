@@ -260,11 +260,20 @@ app.get('/api/configuration-validate/:domain', asyncHandler(async (req, res) => 
   }
 }));
 
-app.get('/test', asyncHandler(async (req, res) => {
-  const { stderr, stdout } = await commands.test();
-  res.json({stderr, stdout});
-}
-));
+app.get('/api/git/branches', asyncHandler(async (req, res) => {
+  const branches = await commands.getBranches();
+  res.json(branches);
+}));
+
+app.get('/api/git/changes-count', asyncHandler(async (req, res) => {
+  const changesCount = await commands.getChangesCount();
+  res.json(changesCount);
+}));
+
+app.get('/api/git/changes', asyncHandler(async (req, res) => {
+  const changes = await commands.getChanges();
+  res.json(changes);
+}));
 
 // Global error handler
 app.use((err, req, res, next) => {

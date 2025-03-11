@@ -200,5 +200,23 @@ export const dataService = {
         params: { level, entityId, serviceId }
       }).then(response => response.data)
     );
-  }
+  },
+
+  getBranches: async () => {
+    return handleRequest(
+      api.get('/git/branches').then(response => response.data)
+    );
+  },
+
+  getChangesCount: async () => {
+    return handleRequest(
+      api.get('/git/changes-count').then(response => response.data)
+    );
+  },
+
+  getChanges: async () => {
+    return handleRequest(
+      api.get('/git/changes').then(response => response.data)
+    );
+  },
 };

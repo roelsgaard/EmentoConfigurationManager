@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Settings } from 'lucide-react';
+import { Settings, RefreshCw } from 'lucide-react';
+import { Tooltip } from "react-tooltip";
 import { dataService } from './lib/api';
 
 // Components
@@ -14,8 +15,13 @@ import { EditVariableModal } from './components/modals/EditVariableModal';
 import { ImportJsonModal } from './components/modals/ImportJsonModal';
 import { SelectVariableModal } from './components/modals/SelectVariableModal';
 import { DeleteVariableModal } from './components/modals/DeleteVariableModal';
+import { data } from 'autoprefixer';
 
 function App() {
+  const [branches, setBranches] = useState([]);
+  const [changesCount, setChangesCount] = useState(0);
+  const [showChanges, setShowChanges] = useState(false);
+  const [changes, setChanges] = useState([]);
   const [environments, setEnvironments] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [services, setServices] = useState([]);
@@ -72,13 +78,16 @@ function App() {
 
   async function fetchData() {
     try {
-      const [envs, custs, svcs, mods, vars, vals] = await Promise.all([
+      const [envs, custs, svcs, mods, vars, vals, branches, changesCount, changes] = await Promise.all([
         dataService.getEnvironments(),
         dataService.getCustomers(),
         dataService.getServices(),
         dataService.getModules(),
         dataService.getVariables(),
-        dataService.getValues()
+        dataService.getValues(),
+        dataService.getBranches(),
+        dataService.getChangesCount(),
+        dataService.getChanges()
       ]);
 
       setEnvironments(envs);
@@ -87,6 +96,9 @@ function App() {
       setModules(mods);
       setVariables(vars);
       setValues(vals);
+      setBranches(branches);
+      setChangesCount(changesCount);
+      setChanges(changes);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -571,6 +583,67 @@ function App() {
             <Settings className="w-8 h-8" />
             Configuration Management
           </h1>
+          <div className="flex items-baseline gap-4 mt-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2 inline">Branch: </label>
+            <select className="w-64 p-2 border border-gray-300 rounded">
+              {branches && branches.map(branch => (
+                <option key={branch}>{branch}</option>
+              ))}
+            </select>
+            <span className="text-sm font-medium text-gray-700 inline">Changes:</span>
+            
+            <span 
+              className="text-sm font-medium text-gray-700 inline"
+              data-tooltip-id="changes-tooltip"
+              onMouseOver={async () => {
+                const changes = await dataService.getChanges();
+                setChanges(changes);
+                setShowChanges(true);
+              }}
+              onMouseLeave={() => setShowChanges(false)}
+            >{changesCount}</span>
+            
+            <button
+                onClick={async () => {
+                  const changesCount = await dataService.getChangesCount();
+                  setChangesCount(changesCount);
+
+                  const changes = await dataService.getChanges();
+                  setChanges(changes);
+                }}
+                className="text-gray-500 hover:text-blue-600 rounded self-center"
+                title="Refresh changes"
+              >
+                <RefreshCw className="w-4 h-4" />
+            </button>
+
+            <Tooltip
+              id="changes-tooltip"
+              place="bottom"
+              variant="dark"
+              style={{zIndex: 9999}}
+              content={
+                <ul className={`text-white text-sm font-medium
+                  ${showChanges ? '' : 'hidden'}`}>
+                    {changes?.map(c => (
+                      <li key={c.file}>{c.status} {c.file}</li>
+                    ))}
+              </ul>
+              }
+            />
+            
+            <button
+              onClick={() => {
+              }}
+              className={`px-4 py-2 rounded ${
+                changesCount > 0
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 hover:bg-gray-200'
+              }`}
+            >
+              Save Changes
+            </button>
+          </div>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
