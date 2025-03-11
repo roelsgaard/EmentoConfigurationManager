@@ -685,8 +685,8 @@ function App() {
                             }}
                             disabled={changesCount <= 0 || savingChanges || generatingConfigs}
                             className={`px-4 py-2 rounded ${changesCount > 0
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-gray-100 hover:bg-gray-200'
+                                ? 'bg-blue-600 hover:bg-blue-500 text-white'
+                                : 'bg-gray-200'
                                 }`}
                         >
                             {generatingConfigs ? 'Generating...' : 'Generate Configurations'}
@@ -710,8 +710,8 @@ function App() {
                             }}
                             disabled={changesCount <= 0 || savingChanges || generatingConfigs}
                             className={`px-4 py-2 rounded ${changesCount > 0
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-gray-100 hover:bg-gray-200'
+                                ? 'bg-blue-600 hover:bg-blue-500 text-white'
+                                : 'bg-gray-200'
                                 }`}
                         >
                             {savingChanges ? 'Saving...' : 'Save Changes'}
