@@ -41,6 +41,15 @@
       "created_at": "2025-03-12T20:21:37.423Z"
     }
   ],
+  "customers": [
+    {
+      "name": "Test Chris",
+      "domain": "test-chris-customer1.emento.dk",
+      "environment_id": "dcsyt5bxv",
+      "id": "w8auhvb3i",
+      "created_at": "2025-03-12T20:23:34.945Z"
+    }
+  ],
   "services": [
     {
       "name": "EmentoTrack",
@@ -62,8 +71,20 @@
     }
   ],
   "modules": [],
-  "customers": [],
-  "variables": [],
+  "variables": [
+    {
+      "name": "phoneNumber",
+      "type": "string",
+      "defaultValue": "+45 72227070",
+      "jsonPath": "supportInfo.emento.phoneNumber",
+      "description": "Imported from JSON: phoneNumber",
+      "service_id": "x4ivydwmc",
+      "module_id": null,
+      "id": "j3riysu8x",
+      "created_at": "2025-03-12T20:26:16.980Z",
+      "updated_at": "2025-03-12T20:26:16.980Z"
+    }
+  ],
   "values": [],
   "hiddenVariables": []
 }
