@@ -1,41 +1,45 @@
 {
-    "track": {
-        "test": {
-            "noValue": "foo"
-        },
-        "universalLinks": {
-            "customerLinkCountry": "dk",
-            "customerLinkDomain": "staging-verify-customerlink.emento.dk",
-            "customerLinkMode": "citizen"
-        }
+  "track": {
+    "test": {
+      "noValue": "fisk"
     },
-    "server": {
-        "contentProviders": {
-            "ementoMedia": {
-                "types": ["video", "image", "episerver"],
-                "url": "https://staging-customer1.emento.dk/media"
-            },
-            "ementoQuestion": {
-                "enabled": true
-            },
-            "geoFence": {
-                "enabled": true
-            },
-            "journl": {
-                "enabled": true
-            },
-            "meedio": {
-                "enabled": true
-            },
-            "signature": {
-                "enabled": true
-            },
-            "surveyXact": {
-                "enabled": true
-            },
-            "video23Config": {
-                "url": "https://emento-development.23video.com"
-            }
-        }
+    "universalLinks": {
+      "customerLinkCountry": "dk",
+      "customerLinkDomain": "staging-verify-customerlink.emento.dk",
+      "customerLinkMode": "citizen"
     }
+  },
+  "server": {
+    "contentProviders": {
+      "ementoMedia": {
+        "types": [
+          "video",
+          "image",
+          "episerver"
+        ],
+        "url": "https://staging-customer1.emento.dk/media"
+      },
+      "ementoQuestion": {
+        "enabled": true
+      },
+      "geoFence": {
+        "enabled": true
+      },
+      "journl": {
+        "enabled": true
+      },
+      "meedio": {
+        "enabled": true
+      },
+      "signature": {
+        "enabled": true
+      },
+      "surveyXact": {
+        "enabled": true
+      },
+      "video23Config": {
+        "url": "https://emento-development.23video.com"
+      }
+    }
+  }
 }
