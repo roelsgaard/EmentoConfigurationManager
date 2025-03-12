@@ -85,6 +85,16 @@
       "updated_at": "2025-03-12T20:26:16.980Z"
     }
   ],
-  "values": [],
+  "values": [
+    {
+      "id": "lwwskgfbk",
+      "variable_id": "j3riysu8x",
+      "level": "customer",
+      "entity_id": "w8auhvb3i",
+      "value": "+45 51880913",
+      "created_at": "2025-03-12T20:27:34.983Z",
+      "updated_at": "2025-03-12T20:27:46.051Z"
+    }
+  ],
   "hiddenVariables": []
 }
